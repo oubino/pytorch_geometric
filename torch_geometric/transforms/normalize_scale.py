@@ -10,7 +10,7 @@ class NormalizeScale(BaseTransform):
     r"""Centers and normalizes node positions to the interval :math:`(-1, 1)`
     (functional name: :obj:`normalize_scale`).
     """
-    def __init__(self):
+    def __init__(self) -> None:
         self.center = Center()
 
     def forward(self, 

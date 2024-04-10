@@ -1,9 +1,9 @@
 package:
   name: pyg
-  version: 2.4.0
+  version: 2.5.2
 
 source:
-  url: https://files.pythonhosted.org/packages/e6/6e/a596e2ddecc3b13a0d576495369a30309fb54c74fadf0bbca645bfbcaa2f/torch_geometric-2.4.0.tar.gz
+  url: https://files.pythonhosted.org/packages/2b/52/e6d298d328858aaebf91ca78d81195e3ccaa99ba3b33b0ffc0af5ec0c86d/torch_geometric-2.5.2.tar.gz
 
 requirements:
   host:
@@ -16,11 +16,13 @@ requirements:
     - {{ environ.get('CONDA_PYTORCH_CONSTRAINT') }}
     - {{ environ.get('CONDA_CUDATOOLKIT_CONSTRAINT') }}
     - psutil
+    - fsspec
     - tqdm
     - jinja2
     - pyparsing
     - numpy
     - scipy
+    - aiohttp
     - requests
     - scikit-learn
 
