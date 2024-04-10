@@ -100,7 +100,6 @@ class PointNetConv(MessagePassing):
 
         if self.global_nn is not None:
             out = self.global_nn(out)
-
         return out
 
     def message(self, x_j: Optional[Tensor], pos_i: Tensor,

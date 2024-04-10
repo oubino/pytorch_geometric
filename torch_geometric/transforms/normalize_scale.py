@@ -1,4 +1,6 @@
-from torch_geometric.data import Data
+from typing import Union
+
+from torch_geometric.data import Data, HeteroData
 from torch_geometric.data.datapipes import functional_transform
 from torch_geometric.transforms import BaseTransform, Center
 
@@ -11,10 +13,13 @@ class NormalizeScale(BaseTransform):
     def __init__(self):
         self.center = Center()
 
-    def forward(self, data: Data) -> Data:
+    def forward(self, 
+                data: Union[Data, HeteroData],
+    ) -> Union[Data, HeteroData]:
         data = self.center(data)
-
-        scale = (1 / data.pos.abs().max()) * 0.999999
-        data.pos = data.pos * scale
+        for store in data.node_stores:
+            if hasattr(store, 'pos'):
+                scale = (1 / store.pos.abs().max()) * 0.999999
+                store.pos = store.pos * scale
 
         return data
