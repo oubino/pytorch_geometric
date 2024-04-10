@@ -628,10 +628,8 @@ class EdgeStorage(BaseStorage):
         if self._key is None:
             raise NameError("Unable to infer 'size' without explicit "
                             "'_key' assignment")
-
         size = (self._parent()[self._key[0]].num_nodes,
                 self._parent()[self._key[-1]].num_nodes)
-
         return size if dim is None else size[dim]
 
     def is_node_attr(self, key: str) -> bool:
