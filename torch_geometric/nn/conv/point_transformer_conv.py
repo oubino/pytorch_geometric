@@ -74,6 +74,8 @@ class PointTransformerConv(MessagePassing):
         - **output:** node features :math:`(|\mathcal{V}|, F_{out})` or
           :math:`(|\mathcal{V}_t|, F_{out})` if bipartite
     """
+    _alpha = OptTensor
+
     def __init__(self, in_channels: Union[int, Tuple[int, int]],
                  out_channels: int, pos_nn: Optional[Callable] = None,
                  attn_nn: Optional[Callable] = None,
@@ -96,6 +98,8 @@ class PointTransformerConv(MessagePassing):
         self.lin = Linear(in_channels[0], out_channels, bias=False)
         self.lin_src = Linear(in_channels[0], out_channels, bias=False)
         self.lin_dst = Linear(in_channels[1], out_channels, bias=False)
+
+        self._alpha = None
 
         self.reset_parameters()
 
@@ -142,6 +146,7 @@ class PointTransformerConv(MessagePassing):
         if self.attn_nn is not None:
             alpha = self.attn_nn(alpha)
         alpha = softmax(alpha, index, ptr, size_i)
+        self._alpha = alpha
         return alpha * (x_j + delta)
 
     def __repr__(self) -> str:
