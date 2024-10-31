@@ -104,6 +104,7 @@ class SAGPooling(torch.nn.Module):
         edge_attr: OptTensor = None,
         batch: OptTensor = None,
         attn: OptTensor = None,
+        pos: OptTensor = None,
     ) -> Tuple[Tensor, Tensor, OptTensor, OptTensor, Tensor, Tensor]:
         r"""
         Args:
@@ -123,7 +124,10 @@ class SAGPooling(torch.nn.Module):
 
         attn = x if attn is None else attn
         attn = attn.view(-1, 1) if attn.dim() == 1 else attn
-        attn = self.gnn(attn, edge_index)
+        if pos is None:
+            attn = self.gnn(attn, edge_index)
+        else:
+            attn = self.gnn(attn, pos, edge_index)
 
         select_out = self.select(attn, batch)
 
